@@ -66,7 +66,7 @@ export const getMoviesWithFilters = async (filters = {}) => {
         page,
         with_genres: genre || '',
         'vote_average.gte': rating || '',
-        year: year || '',
+        primary_release_year: year || '',
         sort_by: 'popularity.desc'
     };
     

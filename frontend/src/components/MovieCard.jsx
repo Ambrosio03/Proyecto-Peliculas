@@ -1,13 +1,20 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { getImageUrl } from "../services/tmdb";
 import { useFavorites } from "../context/FavoritesContext";
 
- const MovieCard = (props) => {
+const MovieCard = (props) => {
   const { movie } = props;
+  const navigate = useNavigate();
   const { isFavorite, addToFavorites, removeFromFavorites } = useFavorites();
   const rating = movie.vote_average ? movie.vote_average.toFixed(1) : "N/A";
 
-  const handleFavorites = () => {
+  const handleMovieClick = () => {
+    navigate(`/movies/${movie.id}`);
+  };
+
+  const handleFavorites = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
     if (isFavorite(movie.id)) {
       removeFromFavorites(movie.id);
     } else {
@@ -26,7 +33,7 @@ import { useFavorites } from "../context/FavoritesContext";
         {isFavorite(movie.id) ? "💔" : "♥️"} 
       </button>
 
-      <Link to={`/movies/${movie.id}`} className="block">
+      <div onClick={handleMovieClick} className="cursor-pointer">
         <div className="relative aspect-[2/3]">
           <div className="absolute top-2 right-2 bg-black bg-opacity-50 text-white py-1 px-2 rounded">
             ⭐ {rating}
@@ -41,7 +48,7 @@ import { useFavorites } from "../context/FavoritesContext";
           <h3 className="font-bold text-lg line-clamp-2 text-gray-500">{movie.title}</h3>
           <p className="text-sm text-gray-300">{movie.release_date}</p>
         </div>
-      </Link>
+      </div>
     </article>
   );
 };

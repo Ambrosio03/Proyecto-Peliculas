@@ -19,10 +19,10 @@ const ReviewItem = ({ reseña }) => {
 
     
     const {
-        id = '',
-        userId = '',
+        id,
+        userId,
         userName = 'Usuario',
-        movieId = '',
+        movieId,
         movieTitle = 'Película',
         valoracion = 0,
         comentario = '',
@@ -62,7 +62,7 @@ const ReviewItem = ({ reseña }) => {
                     >
                         {movieTitle}
                     </Link>
-                    {user && user.uid === userId && (
+                    {user && user.id === userId && (
                         <button
                             onClick={handleDelete}
                             className="p-2 text-gray-400 hover:text-red-500 transition-colors rounded-full hover:bg-gray-700"
