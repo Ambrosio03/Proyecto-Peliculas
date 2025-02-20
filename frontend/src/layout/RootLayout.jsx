@@ -3,7 +3,7 @@ import Navbar from "../components/NavBar"
 
 const RootLayout = () => {
   return (
-    //Contenedor principal
+    
     <div className="min-h-screen bg-gray-100">
         <Navbar/>
         {/* Contenedor principal para el outlet */}

@@ -1,40 +1,41 @@
 import { createContext, useContext, useEffect, useState } from "react";
 
-const ReseñasContext = createContext();
+export const ReseñasContext = createContext();
 
-export function ReseñasProvider({ children }){
-    const [reseñas, setReseñas] = useState([]);
+export const ReseñasProvider = ({ children }) => {
+    const [reseñas, setReseñas] = useState(() => {
+        const savedReseñas = localStorage.getItem('reseñas');
+        return savedReseñas ? JSON.parse(savedReseñas) : [];
+    });
 
     useEffect(() => {
-      const storedReseñas = localStorage.getItem("reseñas");
-      if (storedReseñas) {
-        setReseñas(JSON.parse(storedReseñas));
-      }
-    }, [])
+        localStorage.setItem('reseñas', JSON.stringify(reseñas));
+    }, [reseñas]);
 
-    const addReseña = (reseña) => {
-        setReseñas((prevReseñas) => {
-            const updatedReseñas = [...prevReseñas, reseña];
-            localStorage.setItem("reseñas", JSON.stringify(updatedReseñas));
-            return updatedReseñas;
-        });
+    const addReseña = (nuevaReseña) => {
+        console.log('Añadiendo reseña:', nuevaReseña); // Debug
+        setReseñas(prevReseñas => [...prevReseñas, nuevaReseña]);
     };
-    
 
-    const removeReseña = (reseñaId) => {
-        const updatedReseñas = reseñas.filter(r => r.id !== reseñaId);
-        setReseñas(updatedReseñas);
-        localStorage.setItem("reseñas", JSON.stringify(updatedReseñas));
-    }
+    const deleteReseña = (reseñaId) => {
+        setReseñas(prevReseñas => prevReseñas.filter(reseña => reseña.id !== reseñaId));
+    };
+
+    const updateReseña = (reseñaId, updatedReseña) => {
+        setReseñas(prevReseñas => 
+            prevReseñas.map(reseña => 
+                reseña.id === reseñaId ? { ...reseña, ...updatedReseña } : reseña
+            )
+        );
+    };
 
     return (
-        <ReseñasContext.Provider value={{reseñas,addReseña,removeReseña}}>
+        <ReseñasContext.Provider value={{ reseñas, addReseña, deleteReseña, updateReseña }}>
             {children}
         </ReseñasContext.Provider>
-    )
+    );
+};
 
-    
-}
 export const useReseñas = () => {
     const context = useContext(ReseñasContext);
     if (!context) {

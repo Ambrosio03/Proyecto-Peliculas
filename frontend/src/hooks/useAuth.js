@@ -27,7 +27,7 @@ export const useAuth = () => {
             }
             const data = await response.json();
             login(data.token, data.user);
-            navigate("/home"); // Redirigir a /home después del registro
+            navigate("/home"); o
         } catch (error) {
             setAuthError(error.message);
             console.error("Error al registrar el usuario:", error);
@@ -49,7 +49,7 @@ export const useAuth = () => {
             }
             const data = await response.json();
             login(data.token, data.user);
-            navigate("/home"); // Redirigir a /home después del login
+            navigate("/home"); 
         } catch (error) {
             setAuthError(error.message);
             console.error("Error al iniciar sesión el usuario:", error);

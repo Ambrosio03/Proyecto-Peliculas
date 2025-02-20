@@ -8,9 +8,9 @@ import Spinner from "../components/Spinner";
 
 
 const Home = () => {
-    //estado para el numero de paginas
+    
     const [page, setPage] = useState(1);
-    //me traigo la data
+    
     const {data, error, isLoading} = useFetch(()=>getPopularMovies(page), [page])
     
     const handlePageChange = (newPage) => {

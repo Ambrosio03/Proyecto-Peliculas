@@ -1,10 +1,12 @@
 import { createContext, useContext, useState, useEffect } from "react";
 import { toast } from "sonner";
+import { ToasterContext } from './ToastContext';
 
 const FavoritesContext = createContext();
 
 export const FavoritesProvider = ({ children }) => {
     const [favorites, setFavorites] = useState([]);
+    const showToast = useContext(ToasterContext);
 
     useEffect(() => {
         const storedFavorites = localStorage.getItem("favorites");
@@ -14,49 +16,27 @@ export const FavoritesProvider = ({ children }) => {
     }, []);
 
     const addToFavorites = (movie) => {
-        if (favorites.some(m => m?.id === movie.id)) {
-            toast.error("La película ya está en favoritos", {
-                style: {
-                    background: 'yellow',
-                    color: 'white',
-                    border: "1px solid black",
-                },
-                icon: "♥️",
-            });
-            return;
-        }
-
-        const updatedFavorites = [...favorites, movie];
-        setFavorites(updatedFavorites);
-        localStorage.setItem("favorites", JSON.stringify(updatedFavorites));
-
-        toast.success("Película añadida a favoritos", {
-            style: {
-                background: 'green',
-                color: 'black',
-                border: "1px solid black",
-            },
-            icon: "♥️",
+        setFavorites(prevFavorites => {
+            if (!prevFavorites.some(fav => fav.id === movie.id)) {
+                showToast.favoriteAdded(movie.title);
+                return [...prevFavorites, movie];
+            }
+            return prevFavorites;
         });
     };
 
     const removeFromFavorites = (movieId) => {
-        const updatedFavorites = favorites.filter(m => m.id !== movieId);
-        setFavorites(updatedFavorites);
-        localStorage.setItem("favorites", JSON.stringify(updatedFavorites));
-
-        toast.success("Película eliminada de favoritos", {
-            style: {
-                background: 'red',
-                color: 'white',
-                border: "1px solid black",
-            },
-            icon: "💔",
+        setFavorites(prevFavorites => {
+            const movie = prevFavorites.find(fav => fav.id === movieId);
+            if (movie) {
+                showToast.favoriteRemoved(movie.title);
+            }
+            return prevFavorites.filter(fav => fav.id !== movieId);
         });
     };
 
     const isFavorite = (movieId) => {
-        return favorites.some((movie) => movie.id === movieId);
+        return favorites.some(movie => movie.id === movieId);
     };
 
     return (

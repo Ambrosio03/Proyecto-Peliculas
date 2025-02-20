@@ -10,6 +10,7 @@ import Home from "../pages/Home";
 import Favorites from "../pages/Favorites";
 import LoginPage from "../pages/LoginPage";
 import RegisterPage from "../pages/RegisterPage";
+import ProtectedRoute from "../components/ProtectedRoute";
 
 export const router = createBrowserRouter([
     {
@@ -23,27 +24,51 @@ export const router = createBrowserRouter([
             },
             {
                 path:"home",
-                element: <Home/>,
+                element: (
+                    <ProtectedRoute>
+                        <Home/>
+                    </ProtectedRoute>
+                ),
             },
             {
                 path:"movies",
-                element: <MovieList/>,
+                element: (
+                    <ProtectedRoute>
+                        <MovieList/>
+                    </ProtectedRoute>
+                ),
             },
             {
                 path:"movies/:id",
-                element: <MovieDetail/>,
+                element: (
+                    <ProtectedRoute>
+                        <MovieDetail/>
+                    </ProtectedRoute>
+                ),
             },
             {
                 path:"search",
-                element: <Search/>
+                element: (
+                    <ProtectedRoute>
+                        <Search/>
+                    </ProtectedRoute>
+                )
             },
             {
                 path:"reviews",
-                element:<Reviews/>
+                element:(
+                    <ProtectedRoute>
+                        <Reviews/>
+                    </ProtectedRoute>
+                )
             },
             {
                 path:"favorites",
-                element:<Favorites/>
+                element:(
+                    <ProtectedRoute>
+                        <Favorites/>
+                    </ProtectedRoute>
+                )
             }
         ]
     },
