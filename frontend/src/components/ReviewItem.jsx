@@ -21,7 +21,7 @@ const ReviewItem = ({ reseña }) => {
     const {
         id,
         userId,
-        userName = 'Usuario',
+        userName = user?.username || 'Usuario',
         movieId,
         movieTitle = 'Película',
         valoracion = 0,
