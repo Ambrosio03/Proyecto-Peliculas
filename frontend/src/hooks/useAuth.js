@@ -27,7 +27,7 @@ export const useAuth = () => {
             }
             const data = await response.json();
             login(data.token, data.user);
-            navigate("/home"); o
+            navigate("/home"); 
         } catch (error) {
             setAuthError(error.message);
             console.error("Error al registrar el usuario:", error);

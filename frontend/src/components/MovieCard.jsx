@@ -33,7 +33,7 @@ const MovieCard = (props) => {
         {isFavorite(movie.id) ? "💔" : "♥️"} 
       </button>
 
-      <div onClick={handleMovieClick} className="cursor-pointer">
+      <div onClick={handleMovieClick} className="cursor-pointer h-full flex flex-col">
         <div className="relative aspect-[2/3]">
           <div className="absolute top-2 right-2 bg-black bg-opacity-50 text-white py-1 px-2 rounded">
             ⭐ {rating}
@@ -44,8 +44,8 @@ const MovieCard = (props) => {
             className="object-cover w-full h-full rounded-lg shadow-lg"
           />
         </div>
-        <div className="p-4">
-          <h3 className="font-bold text-lg line-clamp-2 text-gray-500">{movie.title}</h3>
+        <div className="p-4 flex flex-col flex-grow">
+          <h3 className="font-bold text-lg h-14 line-clamp-2 text-gray-500">{movie.title}</h3>
           <p className="text-sm text-gray-300">{movie.release_date}</p>
         </div>
       </div>
